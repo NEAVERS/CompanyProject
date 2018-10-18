@@ -1,4 +1,6 @@
-﻿
+﻿@{
+    ViewBag.Menu = "Index";
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -359,9 +361,9 @@
                             <i class="icon-dashboard"></i>
                             <span class="menu-text"> 数字件分发 </span>
                         </a>
-                        <ul class="submenu">
-                            <li>
-                                <a href="elements.html">
+                        <ul class="submenu ">
+                            <li class="active" id="Index">
+                                <a href="/Home/Index">
                                     <i class="icon-double-angle-right"></i>
                                     数据采集
                                 </a>
@@ -524,7 +526,7 @@
     </div><!-- /.main-container -->
     <!-- basic scripts -->
     <!--[if !IE]> -->
-
+    <input type="hidden" id="menu" value="@ViewBag.Menu" />
 
     <script src="~/Content/js/jquery-2.0.3.min.js"></script>
 
@@ -573,6 +575,13 @@
     <!-- inline scripts related to this page -->
 
     <script type="text/javascript">
+
+        $(function () {
+            var menu = $("#menu").val();
+            $("li .active").removeClass("active");
+            $("#" + menu).addClass("active");
+        })
+
         jQuery(function ($) {
             $('.easy-pie-chart.percentage').each(function () {
                 var $box = $(this).closest('.infobox');

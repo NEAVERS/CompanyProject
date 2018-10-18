@@ -1,6 +1,7 @@
 ﻿<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=vmTunqr4NGOQqja4cCzyKP7ndM3PGBLK"></script>
-
-
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+<link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
 <style type="text/css">
     body, html, #allmap {
         width: 100%;
@@ -17,7 +18,7 @@
 <script type="text/javascript">
     // 百度地图API功能
     var map = new BMap.Map("allmap");    // 创建Map实例
-    map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
+    map.centerAndZoom(new BMap.Point(114.02356, 22.67299), 11);  // 初始化地图,设置中心点坐标和地图级别
     //添加地图类型控件
     map.addControl(new BMap.MapTypeControl({
         mapTypes: [
@@ -25,6 +26,73 @@
             BMAP_HYBRID_MAP
         ]
     }));
+    var overlays = [];
+    var overlaycomplete = function (e) {
+        overlays.push(e.overlay);
+        alert(overlays);
+    };
     map.setCurrentCity("重庆");          // 设置地图显示的城市 此项是必须设置的
     map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+
+    var styleOptions = {
+        strokeColor: "red",    //边线颜色。
+        fillColor: "red",      //填充颜色。当参数为空时，圆形将没有填充效果。
+        strokeWeight: 3,       //边线的宽度，以像素为单位。
+        strokeOpacity: 0.8,    //边线透明度，取值范围0 - 1。
+        fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。
+        strokeStyle: 'solid' //边线的样式，solid或dashed。
+    }
+   
+    //实例化鼠标绘制工具
+    var drawingManager = new BMapLib.DrawingManager(map, {
+        isOpen: false, //是否开启绘制模式
+        enableDrawingTool: true, //是否显示工具栏
+        drawingToolOptions: {
+            anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
+            offset: new BMap.Size(5, 5), //偏离值
+        },
+        circleOptions: styleOptions, //圆的样式
+        polylineOptions: styleOptions, //线的样式
+        polygonOptions: styleOptions, //多边形的样式
+        rectangleOptions: styleOptions //矩形的样式
+    });  
+    drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+    var opts = {
+        width: 250,     // 信息窗口宽度
+        height: 80,     // 信息窗口高度
+        title: "信息窗口", // 信息窗口标题
+        enableMessage: true//设置允许信息窗发送短息
+    };
+
+
+
+
+    $(function () {
+        $.post("/Home/GetLocations", {}, function (e) {
+
+          
+
+            for (var i = 0; i < e.devices.length; i++) {
+                
+                var marker = new BMap.Marker(new BMap.Point(e.devices[i].lng,e.devices[i].lat));  // 创建标注
+                var content = "速度:" + e.devices[i].speed + ",状态:" + e.devices[i].status;
+                map.addOverlay(marker);               // 将标注添加到地图中
+                addClickHandler(content, marker);
+
+            };
+        }, "json")
+    })
+
+    function addClickHandler(content, marker) {
+        marker.addEventListener("click", function (e) {
+            openInfo(content, e)
+        }
+        );
+    }
+    function openInfo(content, e) {
+        var p = e.target;
+        var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+        var infoWindow = new BMap.InfoWindow(content, opts);  // 创建信息窗口对象
+        map.openInfoWindow(infoWindow, point); //开启信息窗口
+    }
 </script>

@@ -1,0 +1,160 @@
+﻿@using Model;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<PayUser> list = (List<PayUser>)ViewBag.List;
+}
+<script src="~/Content/js/jquery-2.0.3.min.js"></script>
+
+<style>
+    #PayHisInfo
+    {
+        width:326px;
+    }
+    .Error{
+        color:red;
+    }
+    .Warn{
+        color:orange;
+    }
+</style>
+<div class="page-content">
+    <div class="page-header">
+        <h1>
+            社保缴费情况
+        </h1>
+    </div><!-- /.page-header -->
+
+        <button class="btn btn-link" onclick="location.href='/PayUser/AddPayUser'">添加人员</button>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="table-responsive">
+                        <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="center">
+                                        <label>
+                                            <input type="checkbox" class="ace" name="userId" />
+                                            <span class="lbl"></span>
+                                        </label>
+                                    </th>
+                                    <th>姓名</th>
+                                    <th>编号</th>
+                                    <th class="hidden-480">最后更新时间</th>
+
+                                    <th>
+                                        <i class="icon-time bigger-110 hidden-480"></i>
+                                        金额
+                                    </th>
+                                    <th class="hidden-480">月数</th>
+
+                                    <th>到期时间</th>
+                                    <th>备注</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @if (list.Count < 1)
+                                {
+                                    <tr><td colspan="8" style=" text-align:center"> 暂无员工数据</td></tr>
+                                }
+                                else
+                                {
+                                    foreach (var item in list)
+                                    {
+                                        <tr @(item.EndTime<DateTime.Now?"class=Error":"")  @((item.EndTime-DateTime.Now).TotalDays<7?"class=Warn":"")>
+                                            <td class="center">
+                                                <label>
+                                                    <input type="checkbox" class="ace" name="userId" value="@item.Id" />
+                                                    <span class="lbl"></span>
+                                                </label>
+                                            </td>
+
+                                            <td>
+                                                @item.Name
+                                            </td>
+                                            <td>
+                                                @item.UserNum
+                                            </td>
+                                            <td>
+                                                @item.LastPayTime
+                                            </td>
+                                            <td>
+                                                @item.PayMoney
+                                            </td>
+                                            <td>
+                                                @item.Months
+                                            </td>
+                                            <td>
+                                                @item.EndTime
+                                            </td>
+                                            <td>
+                                                @item.Remark
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div><!-- /.table-responsive -->
+                </div><!-- /span -->
+            </div><!-- /row -->
+
+            <div class="row"><button class="btn btn-success" id="addPayHis">添加支付记录</button></div>
+
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+</div><!-- /.page-content -->
+
+<div style="display:none;line-height:28px;text-align:center" class="container" id="PayHisInfo">
+
+    <div class="row" style="margin-top:12px;"><div class="col-md-3">金额</div> <div><input type="number" id="PayMoney" /></div></div>
+    <div class="row" style="margin-top:12px;"><div class="col-md-3">月数</div> <div><input type="number" id="Months" /></div></div>
+    <div class="row" style="margin-top:12px;"><div class="col-md-3">备注</div> <div><input type="text" id="Reamrk" /></div></div>
+    <div class="row" style="margin-top:12px;"><div class="col-md-2"></div> <button id="save" class="btn btn-success ">保存</button></div>
+</div>
+
+<input type="hidden" id="userId" value="" />
+<script src="~/Content/layer/layer.js"></script>
+<script>
+    $("#addPayHis").click(function () {
+        var id = $("input:checkbox:checked").val();
+        if (!id) {
+            alert("请选择至少一名员工！");
+            return;
+        }
+        $("#userId").val(id);
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: 1,
+            area: ['340px', '215px'],
+            skin: 'yourclass',
+            content: $("#PayHisInfo"),
+            cancel: function (index, layero) {
+                
+                    layer.close(index);
+                    $("#PayHisInfo").hide();
+                
+                return false;
+            } 
+        });
+    });
+    $("#save").click(function () {
+        var para = {};
+        para.PayUserId = $("#userId").val();
+        para.PayMoney = $("#PayMoney").val();
+        para.Months = $("#Months").val();
+        para.Reamrk = $("#Reamrk").val();
+
+        $.post("/PayUser/AddPayHis", para, function (e) {
+
+        },"json")
+    })
+</script>
