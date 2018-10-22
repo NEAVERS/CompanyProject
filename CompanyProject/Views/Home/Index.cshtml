@@ -2,6 +2,7 @@
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
 <link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
+<script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
 <style type="text/css">
     body, html, #allmap {
         width: 100%;
@@ -64,21 +65,30 @@
         enableMessage: true//设置允许信息窗发送短息
     };
 
+    
+    function showLine() {
+        map.clearOverlays();      
+
+        var polyline = new BMap.Polyline([
+            new BMap.Point(114.02816, 22.67162),
+            new BMap.Point(114.02356, 22.67299),
+            new BMap.Point(114.02833, 22.67329)
+        ], { strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.5 });   //创建折线
+        map.addOverlay(polyline);   //增加折线
 
 
+    }
 
     $(function () {
+
+
+
         $.post("/Home/GetLocations", {}, function (e) {
-
-          
-
             for (var i = 0; i < e.devices.length; i++) {
-                
                 var marker = new BMap.Marker(new BMap.Point(e.devices[i].lng,e.devices[i].lat));  // 创建标注
                 var content = "速度:" + e.devices[i].speed + ",状态:" + e.devices[i].status;
                 map.addOverlay(marker);               // 将标注添加到地图中
                 addClickHandler(content, marker);
-
             };
         }, "json")
     })
@@ -92,6 +102,7 @@
     function openInfo(content, e) {
         var p = e.target;
         var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+        content += '<button onclick="showLine()">显示轨迹</button>';
         var infoWindow = new BMap.InfoWindow(content, opts);  // 创建信息窗口对象
         map.openInfoWindow(infoWindow, point); //开启信息窗口
     }
