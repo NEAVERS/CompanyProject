@@ -48,6 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mapping\CheckTypeMap.cs" />
+    <Compile Include="Mapping\GPSHisMap.cs" />
+    <Compile Include="Mapping\GPSItemMap.cs" />
     <Compile Include="Mapping\PayHisMap.cs" />
     <Compile Include="Mapping\PayUserMap.cs" />
     <Compile Include="MyDbContext.cs" />

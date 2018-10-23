@@ -23,12 +23,19 @@ namespace Dal
 
         public DbSet<PayHis> PayHises { get; set; }
 
+        public DbSet<CheckType> CheckTypes { get; set; }
+
+        public DbSet<GPSHis> GPSHises { get; set; }
+        public DbSet<GPSItem> GPSItems { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new EmpleyeMap());
             modelBuilder.Configurations.Add(new PayUserMap());
             modelBuilder.Configurations.Add(new PayHisMap());
+            modelBuilder.Configurations.Add(new CheckTypeMap());
+            modelBuilder.Configurations.Add(new GPSHisMap());
+            modelBuilder.Configurations.Add(new GPSItemMap());
         }
 
     }

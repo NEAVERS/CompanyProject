@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    class CheckType
+    public class CheckType
     {
         public Guid Id { get; set; }
 

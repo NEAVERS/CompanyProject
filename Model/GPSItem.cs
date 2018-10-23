@@ -29,7 +29,7 @@ namespace Model
 
         public string Oil { get; set; }
 
-        public int MyProperty { get; set; }
+        
 
         public string LoacationInfo { get; set; }
 

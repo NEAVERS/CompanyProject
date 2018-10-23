@@ -12,7 +12,7 @@ using System.Xml.Serialization;
 
 namespace Common
 {
-    public class Utils
+    public static class Utils
     {
         /// <summary>
         /// MD5加密
@@ -61,6 +61,17 @@ namespace Common
             return json;
         }
 
+        public static T DeserializeObject<T>(this string input)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(input);
+            }
+            catch (Exception ex)
+            {
+                return default(T);
+            }
+        }
 
         public static T DeepCopyByJson<T>(T obj)
         {
