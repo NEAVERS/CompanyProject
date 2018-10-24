@@ -167,5 +167,14 @@ namespace Common
             return ip;
         }
 
+        public static DateTime GetTime(long timeSpan)
+        {
+
+            DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            TimeSpan toNow = new TimeSpan(timeSpan);
+            DateTime targetDt = dtStart.Add(toNow);
+            return targetDt;
+        }
+
     }
 }

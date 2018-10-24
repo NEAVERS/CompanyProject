@@ -13,6 +13,8 @@ namespace Dal.Mapping
         public GPSItemMap()
         {
             this.HasKey(x => x.Id);
+            this.Property(t => t.Lat).HasPrecision(30, 20);
+            this.Property(t => t.Lng).HasPrecision(30, 20);
             this.ToTable("GPSItem");
 
             this.Property(t => t.Id).HasColumnName("Id");

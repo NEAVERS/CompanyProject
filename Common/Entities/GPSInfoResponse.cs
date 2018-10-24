@@ -21,9 +21,9 @@ namespace Common.Entities
 
         public string name { get; set; }
 
-        public int recvtime { get; set; }
+        public long recvtime { get; set; }
 
-        public int gpstime { get; set; }
+        public long gpstime { get; set; }
 
         public double lat { get; set; }
 
