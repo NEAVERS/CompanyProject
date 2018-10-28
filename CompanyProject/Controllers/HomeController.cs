@@ -32,7 +32,7 @@ namespace CompanyProject.Controllers
             string url = "http://www.gps902.net/api/GetMonitor.aspx?ids=356803210132270,353507000002012,353507100003389&mapType=baidu&key=20161222HLXTJDMW730XY";
 
             string json = Common.HttpHelper.Get(url);
-            return json;
+            return Common.Utils.SerializeObject(list);
         }
 
     }

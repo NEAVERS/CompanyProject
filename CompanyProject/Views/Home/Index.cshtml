@@ -1,4 +1,8 @@
-﻿<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=vmTunqr4NGOQqja4cCzyKP7ndM3PGBLK"></script>
+﻿@{
+    ViewBag.Title = "Index";
+    ViewBag.Menu = "HomeIndex";
+}
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=vmTunqr4NGOQqja4cCzyKP7ndM3PGBLK"></script>
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
 <link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
@@ -43,7 +47,7 @@
         fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。
         strokeStyle: 'solid' //边线的样式，solid或dashed。
     }
-   
+
     //实例化鼠标绘制工具
     var drawingManager = new BMapLib.DrawingManager(map, {
         isOpen: false, //是否开启绘制模式
@@ -56,7 +60,7 @@
         polylineOptions: styleOptions, //线的样式
         polygonOptions: styleOptions, //多边形的样式
         rectangleOptions: styleOptions //矩形的样式
-    });  
+    });
     drawingManager.addEventListener('overlaycomplete', overlaycomplete);
     var opts = {
         width: 250,     // 信息窗口宽度
@@ -65,10 +69,10 @@
         enableMessage: true//设置允许信息窗发送短息
     };
 
-    
-    function showLine() {
-        map.clearOverlays();      
 
+    function showLine(id) {
+        map.clearOverlays();
+        alert(id)
         var polyline = new BMap.Polyline([
             new BMap.Point(114.02816, 22.67162),
             new BMap.Point(114.02356, 22.67299),
@@ -84,9 +88,9 @@
 
 
         $.post("/Home/GetLocations", {}, function (e) {
-            for (var i = 0; i < e.devices.length; i++) {
-                var marker = new BMap.Marker(new BMap.Point(e.devices[i].lng,e.devices[i].lat));  // 创建标注
-                var content = "速度:" + e.devices[i].speed + ",状态:" + e.devices[i].status;
+            for (var i = 0; i < e.length; i++) {
+                var marker = new BMap.Marker(new BMap.Point(e[i].Lng, e[i].Lat));  // 创建标注
+                var content = e[i];
                 map.addOverlay(marker);               // 将标注添加到地图中
                 addClickHandler(content, marker);
             };
@@ -102,8 +106,10 @@
     function openInfo(content, e) {
         var p = e.target;
         var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
-        content += '<button onclick="showLine()">显示轨迹</button>';
-        var infoWindow = new BMap.InfoWindow(content, opts);  // 创建信息窗口对象
+        var info = "位置信息:" + ",状态:" + content.States
+
+        info += '<button onclick="showLine(\'' + content.Id + '\')">显示轨迹</button>';
+        var infoWindow = new BMap.InfoWindow(info, opts);  // 创建信息窗口对象
         map.openInfoWindow(infoWindow, point); //开启信息窗口
     }
 </script>

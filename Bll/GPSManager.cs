@@ -89,6 +89,51 @@ namespace Bll
         }
 
 
+        public ResponseModel AddCar(string carNum)
+        {
+            var obj = _context.GPSItems.FirstOrDefault(x => x.CardNum == carNum);
+            if(obj!=null)
+            {
+                _response.Msg = "该车牌已存在！";
+                return _response;
+            }
+            try
+            {
+                GPSItem item = new GPSItem();
+                item.Id = Guid.NewGuid();
+                item.CardNum = carNum;
+                item.Code = carNum;
+                item.Lat = 0;
+                item.Lng = 0;
+                item.LastUpdateTime = DateTime.Now;
+                item.Name = carNum;
+                _context.GPSItems.Add(item);
+                _response.Stutas = _context.SaveChanges()>0;
+            }
+            catch(Exception ex)
+            {
+                _response.Msg = ex.Message;
+            }
+            return _response;
+        }
+
+        //获取历史记录 
+        public List<GPSHis> GetGPSHises(Guid itemId)
+        {
+            DateTime start = DateTime.Now.AddDays(-1);
+
+            var q = from c in _context.GPSHises
+                    where c.UploadTime > start
+                    && c.GPSItemId == itemId
+                    select c;
+            return q.ToList();
+        }
+
+        /// <summary>
+        /// 更新位置和并存一条历史记录信息
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
         public bool UpdateLoc(List<GPSItem> list)
         {
             list.ForEach(x =>
@@ -114,7 +159,6 @@ namespace Bll
                 info.LastUpdateTime = x.LastUpdateTime;
 
             });
-
             return _context.SaveChanges()>0;
         }
 

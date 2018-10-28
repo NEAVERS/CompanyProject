@@ -171,7 +171,7 @@ namespace Common
         {
 
             DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
-            TimeSpan toNow = new TimeSpan(timeSpan);
+            TimeSpan toNow = new TimeSpan(timeSpan*10000);
             DateTime targetDt = dtStart.Add(toNow);
             return targetDt;
         }
