@@ -1,5 +1,4 @@
 ﻿@{
-    ViewBag.Menu = "Index";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -598,8 +597,12 @@
 
         $(function () {
             var menu = $("#menu").val();
-            $("li .active").removeClass("active");
-            $("#" + menu).addClass("active");
+            $(".active").removeClass("active");
+            $(".open").removeClass("open");
+
+            var li = $("#" + menu).parent().parent().parent();
+            li.addClass("active").addClass("open");
+            $("#" + menu).parent().addClass("active");
         })
 
         jQuery(function ($) {

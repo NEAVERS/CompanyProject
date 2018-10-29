@@ -23,7 +23,7 @@
 <script type="text/javascript">
     // 百度地图API功能
     var map = new BMap.Map("allmap");    // 创建Map实例
-    map.centerAndZoom(new BMap.Point(114.02356, 22.67299), 11);  // 初始化地图,设置中心点坐标和地图级别
+    map.centerAndZoom(new BMap.Point(120.7480900000, 27.9703830000), 13);  // 初始化地图,设置中心点坐标和地图级别
     //添加地图类型控件
     map.addControl(new BMap.MapTypeControl({
         mapTypes: [
@@ -71,14 +71,19 @@
 
 
     function showLine(id) {
-        map.clearOverlays();
-        alert(id)
-        var polyline = new BMap.Polyline([
-            new BMap.Point(114.02816, 22.67162),
-            new BMap.Point(114.02356, 22.67299),
-            new BMap.Point(114.02833, 22.67329)
-        ], { strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.5 });   //创建折线
-        map.addOverlay(polyline);   //增加折线
+        $.post("/Home/GetLocaHis", { itemId: id }, function (e) {
+            var points = [];
+            for (var i = 0; i < e.length; i++) {
+                var point = new BMap.Point(e[i].Lng, e[i].Lat);
+                points.push(point);
+            };
+            map.clearOverlays();
+            var polyline = new BMap.Polyline(points, { strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.5 });   //创建折线
+            map.addOverlay(polyline);   //增加折线
+        }, "json")
+
+
+        //
 
 
     }
