@@ -4,6 +4,7 @@ using Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,43 +52,45 @@ namespace Bll
         /// <returns></returns>
         public List<GPSItem> GetGpsItems()
         {
-            try
-            {
-                var q = from c in _context.GPSItems
-                        select c;
+            var q = from c in _context.GPSItems
+                    select c;
 
-                var list = q.ToList();
-                string url = "122.112.213.193";
-                list.ForEach(x =>
-                {
-                    var res = GetToken(url, x.Code, x.Pwd);
-                    if (res.success)
-                    {
-                        var info = GetGpsInfo(url, res.vid, res.vKey);
-                        if (info.success && info.locs.Count > 0)
-                        {
-
-                            var loc = info.locs[0];
-                            x.Lat = Convert.ToDecimal(loc.lat);
-                            x.Lng = Convert.ToDecimal(loc.lng);
-                            x.Speed = loc.speed.ToString();
-                            x.Oil = loc.oil.ToString();
-                            x.LoacationInfo = loc.info;
-                            x.States = loc.state;
-                            x.LastUpdateTime =  Common.Utils.GetTime(loc.gpstime);
-                        }
-                    }
-                });
-                UpdateLoc(list);
-                return list;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+            var list = q.ToList();
+            return list;
             //TODO UPdate数据并保存一条历史
         }
 
+
+        public bool UpdateGpsInfo()
+        {
+            var q = from c in _context.GPSItems
+                    select c;
+
+            var list = q.ToList();
+            string url =  ConfigurationManager.AppSettings["serverIp"].ToString();
+            list.ForEach(x =>
+            {
+                var res = GetToken(url, x.Code, x.Pwd);
+                if (res.success)
+                {
+                    var info = GetGpsInfo(url, res.vid, res.vKey);
+                    if (info.success && info.locs.Count > 0)
+                    {
+
+                        var loc = info.locs[0];
+                        x.Lat = Convert.ToDecimal(loc.lat);
+                        x.Lng = Convert.ToDecimal(loc.lng);
+                        x.Speed = loc.speed.ToString();
+                        x.Oil = loc.oil.ToString();
+                        x.LoacationInfo = loc.info;
+                        x.States = loc.state;
+                        x.LastUpdateTime = Common.Utils.GetTime(loc.gpstime);
+                    }
+                }
+            });
+             return UpdateLoc(list);
+
+        }
 
         public ResponseModel AddCar(string carNum)
         {
@@ -162,8 +165,28 @@ namespace Bll
             return _context.SaveChanges()>0;
         }
 
-
-        
+        /// <summary>
+        /// 删除车辆
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public ResponseModel DeleteCars(List<Guid> ids)
+        {
+            try
+            {
+                var q = from c in _context.GPSItems
+                        where ids.Contains(c.Id)
+                        select c;
+                _context.GPSItems.RemoveRange(q);
+                _response.Stutas = _context.SaveChanges() > 0;
+            }
+            catch (Exception ex)
+            {
+                _response.Msg = ex.Message;
+                Common.LogsHelper.WriteErrorLog(ex, "删除车辆");
+            }
+            return _response;
+        }
 
     }
 }

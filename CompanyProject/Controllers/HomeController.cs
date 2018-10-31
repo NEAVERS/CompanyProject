@@ -1,4 +1,5 @@
 ﻿using Bll;
+using Common.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace CompanyProject.Controllers
     public class HomeController : Controller
     {
         GPSManager _manager = new GPSManager();
-
+        ResponseModel _response = new ResponseModel();
         public ActionResult Index()
         {
             return View();
@@ -42,5 +43,33 @@ namespace CompanyProject.Controllers
             return Common.Utils.SerializeObject(list);
         }
 
+
+        public ActionResult CarList()
+        {
+            var list = _manager.GetGpsItems();
+            ViewBag.List = list;
+            return View();
+        }
+
+
+        public ActionResult AddCar()
+        {
+            return View();
+        }
+
+
+        public string SaveCarNum(string carNum)
+        {
+            _response = _manager.AddCar(carNum);
+            return Common.Utils.SerializeObject(_response);
+        }
+
+
+        public string DeleteCarnum(List<Guid> ids)
+        {
+            _response = _manager.DeleteCars(ids);
+            return Common.Utils.SerializeObject(_response);
+
+        }
     }
 }

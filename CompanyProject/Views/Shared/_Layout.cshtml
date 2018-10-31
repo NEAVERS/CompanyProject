@@ -355,35 +355,37 @@
                 </div><!-- #sidebar-shortcuts -->
 
                 <ul class="nav nav-list">
-                    <li class="active">
-                        <a href="index.html">
-                            <i class="icon-dashboard"></i>
-                            <span class="menu-text"> 数字件分发 </span>
+                    <li>
+                        <a href="#" class="dropdown-toggle">
+                            <i class="icon-desktop"></i>
+                            <span class="menu-text"> 自动采集车 </span>
+
+                            <b class="arrow icon-angle-down"></b>
                         </a>
-                        <ul class="submenu ">
-                            <li class="active" id="HomeIndex">
-                                <a href="/Home/Index">
+
+                        <ul class="submenu">
+                            <li>
+                                <a href="/Home/Index" id="HomeIndex">
                                     <i class="icon-double-angle-right"></i>
-                                    数据采集
+                                    GPS定位
                                 </a>
                             </li>
 
 
                             <li>
-                                <a href="elements.html">
+                                <a href="/Home/CarList" id="CarList">
                                     <i class="icon-double-angle-right"></i>
-                                    分配处理人员原则
+                                    车辆列表
                                 </a>
                             </li>
                             <li>
                                 <a href="elements.html">
                                     <i class="icon-double-angle-right"></i>
-                                    处理反馈
+                                    二次确认
                                 </a>
                             </li>
 
                         </ul>
-
                     </li>
 
                     <li>
@@ -418,38 +420,6 @@
 
                     </li>
 
-                    <li>
-                        <a href="#" class="dropdown-toggle">
-                            <i class="icon-desktop"></i>
-                            <span class="menu-text"> 自动采集车 </span>
-
-                            <b class="arrow icon-angle-down"></b>
-                        </a>
-
-                        <ul class="submenu">
-                            <li>
-                                <a href="elements.html">
-                                    <i class="icon-double-angle-right"></i>
-                                    GPS定位
-                                </a>
-                            </li>
-
-
-                            <li>
-                                <a href="elements.html">
-                                    <i class="icon-double-angle-right"></i>
-                                    采集内容上传
-                                </a>
-                            </li>
-                            <li>
-                                <a href="elements.html">
-                                    <i class="icon-double-angle-right"></i>
-                                    二次确认
-                                </a>
-                            </li>
-
-                        </ul>
-                    </li>
 
                     <li>
                         <a href="#" class="dropdown-toggle">
@@ -517,7 +487,8 @@
                                 </a>
                             </li>
 
-、                        </ul>
+                            、
+                        </ul>
                     </li>
 
                 </ul><!-- /.nav-list -->
@@ -532,8 +503,11 @@
             </div>
 
             <div class="main-content">
-                @RenderBody()
-            </div><!-- /.main-content -->
+                <div class="page-content">
+
+                    @RenderBody()
+                    </div>
+                </div><!-- /.main-content -->
 
             <div class="ace-settings-container" id="ace-settings-container">
             </div><!-- /#ace-settings-container -->

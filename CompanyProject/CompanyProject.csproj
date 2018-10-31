@@ -148,6 +148,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="AutoTask\AutoTask.cs" />
+    <Compile Include="AutoTask\Filters.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PayUserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -398,6 +400,7 @@
     <Content Include="Content\avatars\Thumbs.db" />
     <Content Include="Content\css\images\Thumbs.db" />
     <Content Include="Content\font\fontawesome-webfont.woff" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -425,6 +428,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\PayUser\Index.cshtml" />
     <Content Include="Views\PayUser\AddPayUser.cshtml" />
+    <Content Include="Views\Home\AddCar.cshtml" />
+    <Content Include="Views\Home\CarList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

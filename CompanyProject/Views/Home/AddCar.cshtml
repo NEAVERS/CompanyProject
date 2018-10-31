@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "添加车辆";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Menu = "CarList";
+
+}
+<div class="page-header">
+    <h1>
+        添加车辆
+    </h1>
+</div><!-- /.page-header -->
+<div class="row">
+    <div class="col-xs-12">
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="row" style="">
+                    <label class="control-label col-md-2" for="Name">车牌：</label>
+                    <div class="col-md-5">
+                        <input type="text" id="carNum" value="" class="form-control text-box single-line" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" value="添加" id="add_btn" class="btn btn-default" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/js/jquery-2.0.3.min.js"></script>
+<script src="~/Content/layer/layer.js"></script>
+
+<script>
+    $("#add_btn").click(function () {
+        var num = $("#carNum").val();
+        if (num == "") {
+            layer.msg("车牌号不能为空！", { icon: 2 });
+            return;
+        }
+        $.post("/Home/SaveCarNum", { carNum: num }, function (e) {
+            if (e.Stutas) {
+                layer.msg("添加成功！", { icon: 1 });
+            }
+            else
+                layer.msg(e.Msg, { icon: 2 });
+        }, "json");
+    })
+</script>

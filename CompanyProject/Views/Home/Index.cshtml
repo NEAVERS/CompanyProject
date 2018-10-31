@@ -64,7 +64,7 @@
     drawingManager.addEventListener('overlaycomplete', overlaycomplete);
     var opts = {
         width: 250,     // 信息窗口宽度
-        height: 80,     // 信息窗口高度
+        height: 150,     // 信息窗口高度
         title: "信息窗口", // 信息窗口标题
         enableMessage: true//设置允许信息窗发送短息
     };
@@ -111,7 +111,7 @@
     function openInfo(content, e) {
         var p = e.target;
         var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
-        var info = "位置信息:" + ",状态:" + content.States
+        var info = "车牌:" + content.Code + "位置信息:" + content.LoacationInfo + ",状态:" + content.States
 
         info += '<button onclick="showLine(\'' + content.Id + '\')">显示轨迹</button>';
         var infoWindow = new BMap.InfoWindow(info, opts);  // 创建信息窗口对象
