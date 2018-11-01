@@ -29,9 +29,9 @@ namespace Model
         /// 获取检查子项
         /// </summary>
         /// <returns></returns>
-        public List<CheckItem> GetTypeItems()
+        public List<CheckSub> GetTypeItems()
         {
-            List<CheckItem> list = new List<CheckItem>();
+            List<CheckSub> list = new List<CheckSub>();
             if (!string.IsNullOrWhiteSpace(this.TypeItems))
             {
                 string[] items = this.TypeItems.Split(',');
@@ -39,7 +39,7 @@ namespace Model
                 {
                     int num = Utils.ParseInt(item);
                     if (num > 0)
-                        list.Add((CheckItem)num);
+                        list.Add((CheckSub)num);
                 }
             }
             

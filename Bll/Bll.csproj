@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CheckManager.cs" />
     <Compile Include="GPSManager.cs" />
     <Compile Include="PayUserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

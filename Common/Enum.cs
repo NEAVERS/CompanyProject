@@ -12,7 +12,7 @@ namespace Common
         男
     }
 
-    public enum CheckItem
+    public enum CheckSub
     {
           公厕周边 =1,
           外墙面,

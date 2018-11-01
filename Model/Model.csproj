@@ -40,12 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CheckInfo.cs" />
+    <Compile Include="CheckItem.cs" />
     <Compile Include="CheckType.cs" />
     <Compile Include="Empleye.cs" />
     <Compile Include="GPSHis.cs" />
     <Compile Include="GPSItem.cs" />
     <Compile Include="PayHis.cs" />
     <Compile Include="PayUser.cs" />
+    <Compile Include="PicInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -28,6 +28,14 @@ namespace Dal
         public DbSet<GPSHis> GPSHises { get; set; }
         public DbSet<GPSItem> GPSItems { get; set; }
 
+
+
+        public DbSet<CheckInfo> CheckInfoes { get; set; }
+
+        public DbSet<CheckItem> CheckItems { get; set; }
+        public DbSet<PicInfo> PicInfoes { get; set; }
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new EmpleyeMap());
@@ -36,6 +44,12 @@ namespace Dal
             modelBuilder.Configurations.Add(new CheckTypeMap());
             modelBuilder.Configurations.Add(new GPSHisMap());
             modelBuilder.Configurations.Add(new GPSItemMap());
+
+
+            modelBuilder.Configurations.Add(new CheckInfoMap());
+            modelBuilder.Configurations.Add(new CheckItemMap());
+            modelBuilder.Configurations.Add(new PicInfoMap());
+
         }
 
     }
