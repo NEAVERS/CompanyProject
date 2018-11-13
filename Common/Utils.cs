@@ -69,7 +69,9 @@ namespace Common
             }
             catch (Exception ex)
             {
+                LogsHelper.WriteErrorLog(ex, "");
                 return default(T);
+                
             }
         }
 

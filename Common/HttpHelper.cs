@@ -34,7 +34,7 @@ namespace Common
 
         public static string Post(string url, string paramData, Encoding encoding)
         {
-            string result;
+            string result= "";
 
             if (url.ToLower().IndexOf("https", System.StringComparison.Ordinal) > -1)
             {
@@ -52,9 +52,9 @@ namespace Common
 
                 result = wc.UploadString(url, "POST", paramData);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                LogsHelper.WriteErrorLog(ex);
             }
 
             return result;
