@@ -18,6 +18,44 @@ namespace Bll
 
 
         /// <summary>
+        /// 获取检查类型列表
+        /// </summary>
+        /// <returns></returns>
+        public List<CheckType> GetCheckTypes()
+        {
+            var list = _context.CheckTypes.ToList();
+            return list;
+        }
+
+        public bool AddCheckType(CheckType checkType)
+        {
+            _context.CheckTypes.Add(checkType);
+            return _context.SaveChanges() > 0;
+        }
+        public bool UpdateCheckType(Guid typeId,string name,string typeItems)
+        {
+            var model = _context.CheckTypes.FirstOrDefault(x => x.Id == typeId);
+            if (model != null)
+            {
+                model.Name = name;
+                model.TypeItems = typeItems;
+            }
+            return _context.SaveChanges() > 0;
+        }
+
+        public CheckType GetCheckType(Guid id)
+        {
+            var model = _context.CheckTypes.FirstOrDefault(x => x.Id == id);
+            return model;
+        }
+        public bool DeleteCheckType(Guid id)
+        {
+            var model = _context.CheckTypes.FirstOrDefault(x => x.Id == id);
+            if (model != null)
+                _context.CheckTypes.Remove(model);
+            return _context.SaveChanges() > 0;
+        }
+        /// <summary>
         /// 创建 一个检查对象
         /// </summary>
         /// <param name="typeId"></param>

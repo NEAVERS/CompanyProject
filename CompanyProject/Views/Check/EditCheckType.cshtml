@@ -1,0 +1,83 @@
+﻿@using Model;
+@using Common
+@{
+    ViewBag.Title = "EditCheckInfo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var subs = (List<CheckSub>)ViewBag.Subs;
+}
+
+@model CheckType
+
+<div class="page-header">
+    <h1>
+        添加检查类型
+    </h1>
+</div><!-- /.page-header -->
+<div class="row">
+    <div class="col-xs-12">
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="row" style="">
+                    <label class="control-label col-md-2" for="Name">类型：</label>
+                    <div class="col-md-5">
+                        <input type="text" id="name" value="@Model.Name" class="form-control text-box single-line" />
+                    </div>
+                </div>
+                <div class="row" style="">
+                    <label class="control-label col-md-2" for="Name">检查子项：</label>
+                    <div class="col-md-5">
+                        @foreach (CheckSub sub in Enum.GetValues(typeof(CheckSub)))
+                        {
+                            <input type="checkbox" name="checksub" value="@((int)sub)" class=" chosen-choices " @(subs.Contains(sub)?"checked='checked'":"")  />@(sub.ToString())
+                        }
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" value="保存" id="add_btn" class="btn btn-default" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="TypeId" value="@Model.Id" />
+<script src="~/Content/js/jquery-2.0.3.min.js"></script>
+<script src="~/Content/layer/layer.js"></script>
+<script>
+    $("#add_btn").click(function () {
+        var id = $("#TypeId").val();
+        var name = $("#name").val();
+        var subs = "";
+        $('input:checkbox').each(function () {
+            if ($(this).prop('checked') == true) {
+                subs += $(this).val() + ",";
+            }
+        });
+
+        if (!name || name == "") {
+            layer.msg("类型名不能为空！", { icon: 2 });
+            return;
+        }
+        if (!subs || subs == "") {
+            layer.msg("必须选择检查子项！", { icon: 2 });
+            return;
+        }
+        $.post("/Check/SaveCheckType", { id: id, name: name, subs: subs }, function (e) {
+            if (e.Stutas) {
+                layer.msg("保存成功！", { icon: 1 }, function () {
+                    location.href = "/Check/CkeckTypes";
+                })
+            }
+            else {
+                layer.msg("保存失败！" + e.Msg, { icon: 2 })
+
+            }
+        }, "json");
+
+    })
+
+</script>
