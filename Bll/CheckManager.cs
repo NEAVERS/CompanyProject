@@ -27,11 +27,24 @@ namespace Bll
             return list;
         }
 
+        /// <summary>
+        /// 添加一个检查类型
+        /// </summary>
+        /// <param name="checkType"></param>
+        /// <returns></returns>
         public bool AddCheckType(CheckType checkType)
         {
             _context.CheckTypes.Add(checkType);
             return _context.SaveChanges() > 0;
         }
+
+        /// <summary>
+        /// 更新检查类型
+        /// </summary>
+        /// <param name="typeId"></param>
+        /// <param name="name"></param>
+        /// <param name="typeItems"></param>
+        /// <returns></returns>
         public bool UpdateCheckType(Guid typeId,string name,string typeItems)
         {
             var model = _context.CheckTypes.FirstOrDefault(x => x.Id == typeId);
@@ -42,12 +55,21 @@ namespace Bll
             }
             return _context.SaveChanges() > 0;
         }
-
+        /// <summary>
+        /// 根据id获取检查类型
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public CheckType GetCheckType(Guid id)
         {
             var model = _context.CheckTypes.FirstOrDefault(x => x.Id == id);
             return model;
         }
+        /// <summary>
+        /// 删除检查类型
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public bool DeleteCheckType(Guid id)
         {
             var model = _context.CheckTypes.FirstOrDefault(x => x.Id == id);
@@ -55,6 +77,35 @@ namespace Bll
                 _context.CheckTypes.Remove(model);
             return _context.SaveChanges() > 0;
         }
+
+        /// <summary>
+        /// 根据条件获取检查对象
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="size"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public PageData<CheckInfo> GetCheckInfoes(int index,int size,string start,string end,int status,string key)
+        {
+            DateTime sTine = Utils.GetTime(start, true);
+            DateTime eTime = Utils.GetTime(end);
+            var q = from c in _context.CheckInfoes
+                    where c.CreateTime > sTine
+                    && c.CreateTime < eTime
+                    &&(status == -1||c.Status== status)
+                    && (c.DealUserName.Contains(key) || c.TypeName.Contains(key))
+                    select c;
+            PageData<CheckInfo> pager = new PageData<CheckInfo>();
+            pager.PageIndex = index;
+            pager.PageSize = size;
+            pager.TotalCount = q.Count();
+            pager.ListData = q.OrderByDescending(x => x.CreateTime).Skip((index - 1) * size).Take(size).ToList();
+            return pager;
+        }
+
+
         /// <summary>
         /// 创建 一个检查对象
         /// </summary>
@@ -79,6 +130,11 @@ namespace Bll
             return checkInfo;
         }
 
+        /// <summary>
+        /// 保存检查对象
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public ResponseModel SaveCheckInfo(CheckInfo info)
         {
             try

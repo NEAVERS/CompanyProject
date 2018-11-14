@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Entities\GPSInfoResponse.cs" />
     <Compile Include="Entities\LoginResponse.cs" />
+    <Compile Include="Entities\PageData.cs" />
     <Compile Include="Entities\ResponseModel.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="HttpHelper.cs" />

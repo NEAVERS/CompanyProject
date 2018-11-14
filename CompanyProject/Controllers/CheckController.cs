@@ -87,7 +87,12 @@ namespace CompanyProject.Controllers
                 _response.Msg = ex.Message;
             }
             return Common.Utils.SerializeObject(_response);
+        }
 
+        public ActionResult CheckInfoList(int index = 1, int size = 15, string start="",string end = "",string key="")
+        {
+
+            return View();
         }
     }
 }
