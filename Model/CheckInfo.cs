@@ -40,8 +40,15 @@ namespace Model
 
         public double Lng { get; set; }
 
+        public string LocationInfo { get; set; }
+
+
+
+        public string Name { get; set; }
 
         public List<CheckItem> CheckItems { get; set; }
+
+        public string Remark { get; set; }
 
         public CheckInfo()
         {

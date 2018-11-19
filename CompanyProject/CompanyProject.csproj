@@ -481,6 +481,8 @@
     <Content Include="Views\Check\CkeckTypes.cshtml" />
     <Content Include="Views\Check\AddCkeckTypes.cshtml" />
     <Content Include="Views\Check\EditCheckType.cshtml" />
+    <Content Include="Views\Check\CheckInfoList.cshtml" />
+    <Content Include="Views\Check\AddCheckInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

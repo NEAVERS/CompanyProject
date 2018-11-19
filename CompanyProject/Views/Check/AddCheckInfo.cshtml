@@ -1,0 +1,111 @@
+﻿@using Model;
+@{
+    ViewBag.Title = "AddCheckInfo";
+}
+@model CheckInfo
+
+<div class="page-header">
+    <h1>
+        添加 @Model.Name
+    </h1>
+</div><!-- /.page-header -->
+<div class="row">
+    <div class="col-xs-12">
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="row" style="">
+                    <label class="control-label col-md-2" for="Name">检查名称：</label>
+                    <div class="col-md-5">
+                        <input type="text" id="checkname" value="" class="form-control text-box single-line" />
+                    </div>
+                </div>
+                <div class="row" style="">
+                    <label class="control-label col-md-2" for="Name">经纬度：</label>
+                    <div class="col-md-5">
+                        <input type="text" id="location" value="" class="form-control text-box single-line" />
+                    </div>
+                </div>
+                <div class="row" style="">
+                    <label class="control-label col-md-2" for="Name">地理位置：</label>
+                    <div class="col-md-5">
+                        <input type="text" id="locationinfo" value="" class="form-control text-box single-line" />
+                    </div>
+                </div>
+
+                <div class="row" style="">
+                    <label class="control-label col-md-2" for="Name">检查类型：</label>
+                    <div class="col-md-5">
+                        <input type="text" id="checkType" readonly="readonly" value="@Model.TypeName" typeid="@Model.TypeId" class="form-control text-box single-line" />
+                    </div>
+                </div>
+                <div class="row" style="">
+                    <label class="control-label col-md-2" for="Name">备注：</label>
+                    <div class="col-md-5">
+                        <input type="text" id="remark" value="" class="form-control text-box single-line" />
+                    </div>
+                </div>
+
+                @foreach (var item in Model.CheckItems)
+                {
+
+                    <div class="row checkItem" style="" >
+                        <input type="hidden" class="checkItemTypeId" value="@item.ItemType"  itemName="@item.ItemName"/>
+                        <label class="control-label col-md-2" for="Name">检查子项：@item.ItemName</label>
+                        <div class="col-md-3">
+                            评分<input type="text" id="Remark" readonly="readonly" value="@Model.TypeName" class="form-control text-box single-line" />
+                        </div>
+                        <div class="col-md-3 imgList">
+                            <ul>
+                                <li url=""></li>
+                            </ul>
+                        </div>
+                    </div>
+                }
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" value="添加" id="add_btn" class="btn btn-default" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/js/jquery-2.0.3.min.js"></script>
+<script src="~/Content/layer/layer.js"></script>
+
+<script>
+
+
+    function IniInfo() {
+        var info = {};
+        info.TypeName = $("#checkType").val();
+        info.TypeId = $("#checkType").attr("typeid");
+        info.Name = $("#checkname").val();
+        var loc = $("#location").val()
+        info.Lat = loc.split(',')[0];
+        info.Lng = loc.split(',')[1];
+        info.LocationInfo = $("#locationinfo").val();
+        info.Remark = $("#remark").val();
+        info.CheckItems = [];
+
+        $(".checkItem").each(function () {
+            var item = {};
+            var type = $(this).children(".checkItemTypeId");
+            item.ItemName = type.val();
+            item.ItemType = type.attr("itemName");
+            item.Courts = 5;
+            item.Remark = $(this).children(".Remark").val();
+            var imgs = [];
+            $(this).children("li").each(function () {
+                var imgItem = {};
+                imgItem.Path = $(this).attr("url");
+                imgs.push(imgItem);
+            })
+            item.Pics = imgs;
+            info.CheckItems.push(item);
+        });
+        return info;
+    }
+</script>

@@ -139,18 +139,33 @@ namespace Bll
         {
             try
             {
+                info.Id = Guid.NewGuid();
+                info.CreateTime = DateTime.Now;
+                info.DistributeTime = DateTime.MinValue;
+                info.DealTime = DateTime.MinValue;
+                info.Status = 0;
+
                 _context.CheckInfoes.Add(info);
-                _context.CheckItems.AddRange(info.CheckItems);
                 info.CheckItems.ForEach(x =>
                 {
+                    x.CheckInfoId = info.Id;
+                    x.Id = Guid.NewGuid();
+                    x.Pics.ForEach(c =>
+                    {
+                        c.Id = Guid.NewGuid();
+                        c.CheckItemId = x.Id;
+                    });
                     _context.PicInfoes.AddRange(x.Pics);
+
                 });
+                _context.CheckItems.AddRange(info.CheckItems);
+
                 _response.Stutas = _context.SaveChanges() > 0;
             }
             catch (Exception ex)
             {
 
-                LogsHelper.WriteErrorLog(ex,"保存检查对象");
+                LogsHelper.WriteErrorLog(ex, "保存检查对象");
                 _response.Msg = ex.Message;
             }
             return _response;

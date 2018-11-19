@@ -89,10 +89,24 @@ namespace CompanyProject.Controllers
             return Common.Utils.SerializeObject(_response);
         }
 
-        public ActionResult CheckInfoList(int index = 1, int size = 15, string start="",string end = "",string key="")
+        public ActionResult CheckInfoList(int index = 1, int size = 15, string start="",string end = "",string key="",int stutas = -1)
         {
 
+            PageData<CheckInfo> list = _checkManager.GetCheckInfoes(index, size, start, end, stutas, key);
+            ViewBag.Pager = list;
             return View();
+        }
+
+        public ActionResult AddCheckInfo(Guid typeId)
+        {
+            CheckInfo info = _checkManager.CreateCheckInfo(typeId);
+            return View(info);
+        }
+
+        public string SaveCheckInfo(CheckInfo checkInfo)
+        {
+            _response = _checkManager.SaveCheckInfo(checkInfo);
+            return "";
         }
     }
 }
