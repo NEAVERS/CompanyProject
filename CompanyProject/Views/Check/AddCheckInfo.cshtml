@@ -3,10 +3,38 @@
     ViewBag.Title = "AddCheckInfo";
 }
 @model CheckInfo
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=vmTunqr4NGOQqja4cCzyKP7ndM3PGBLK"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+<link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
+<script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
+<link href="~/Scripts/webuploader/webuploader.css" rel="stylesheet" />
+<style type="text/css">
+    body, html, #allmap {
+        width: 100%;
+        height: 800px;
+        overflow: hidden;
+        margin: 0;
+        font-family: "微软雅黑";
+    }
 
+    li img {
+        width: 40px;
+        height: 40px;
+    }
+    .checkItem ul {
+        list-style: none; /* 去掉ul前面的符号 */
+        margin: 0px; /* 与外界元素的距离为0 */
+        padding: 0px; /* 与内部元素的距离为0 */
+        width: auto; /* 宽度根据元素内容调整 */
+    }
+    /* 所有class为menu的div中的ul中的li样式 */
+    .checkItem ul li {
+        float: left; /* 向左漂移，将竖排变为横排 */
+    }
+</style>
 <div class="page-header">
     <h1>
-        添加 @Model.Name
+        添加 @Model.TypeName
     </h1>
 </div><!-- /.page-header -->
 <div class="row">
@@ -24,6 +52,11 @@
                     <label class="control-label col-md-2" for="Name">经纬度：</label>
                     <div class="col-md-5">
                         <input type="text" id="location" value="" class="form-control text-box single-line" />
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn" id="showMap">
+                            地图选点
+                        </button>
                     </div>
                 </div>
                 <div class="row" style="">
@@ -49,31 +82,90 @@
                 @foreach (var item in Model.CheckItems)
                 {
 
-                    <div class="row checkItem" style="" >
-                        <input type="hidden" class="checkItemTypeId" value="@item.ItemType"  itemName="@item.ItemName"/>
-                        <label class="control-label col-md-2" for="Name">检查子项：@item.ItemName</label>
-                        <div class="col-md-3">
-                            评分<input type="text" id="Remark" readonly="readonly" value="@Model.TypeName" class="form-control text-box single-line" />
-                        </div>
-                        <div class="col-md-3 imgList">
-                            <ul>
-                                <li url=""></li>
-                            </ul>
-                        </div>
+                <div class="row checkItem" style="">
+                    <input type="hidden" class="checkItemTypeId" value="@item.ItemType" itemName="@item.ItemName" />
+                    <label class="control-label col-md-2" for="Name">检查子项：@item.ItemName</label>
+                    <div class="col-md-1" style="line-height:28px;text-align:right">评分:</div>
+                    <div class="col-md-1">
+                        <input type="number" value="" class="form-control text-box single-line Remark" />
                     </div>
-                }
-                <div class="row">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="button" value="添加" id="add_btn" class="btn btn-default" />
+                    <div class="col-md-3 imgList">
+                        <ul>
+                            <li class="addImg" onclick="UploadImg(this)">
+                                <img src="~/Content/Img/addimg.jpg" />
+                            </li>
+                        </ul>
                     </div>
                 </div>
+                    }
+                    <div class="row">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="button" value="添加" id="add_btn" class="btn btn-default" />
+                        </div>
+                    </div>
 
-            </div>
+                </div>
         </div>
     </div>
 </div>
+<div class="map" style="display:none">
+    <div id="allmap"></div>
+    <div class="row"><button id="save">保存</button></div>
+</div>
+
+<div id="uploader-demo" style="height:24px;">
+
+    <!--用来存放item-->
+
+    <div id="fileList" class="uploader-list"></div>
+
+    <div id="filePicker">选择图片</div>
+
+</div>
+
 <script src="~/Content/js/jquery-2.0.3.min.js"></script>
+<script src="~/Scripts/webuploader/webuploader.min.js"></script>
 <script src="~/Content/layer/layer.js"></script>
+<script>
+    var loacationInfo = {};
+
+    var map = new BMap.Map("allmap");    // 创建Map实例
+    map.centerAndZoom(new BMap.Point(120.7480900000, 27.9703830000), 13);  // 初始化地图,设置中心点坐标和地图级别
+    function showInfo(e) {
+        map.clearOverlays();
+        var marker = new BMap.Marker(e.point);  // 创建标注
+        map.addOverlay(marker);               // 将标注添加到地图中
+        loacationInfo.point = e.point
+        var gc = new BMap.Geocoder();
+        gc.getLocation(e.point, function (rs) {
+            //console.log(rs.address);//地址信息
+            actual_address = rs.address;
+            var address = new BMap.Label(rs.address, { offset: new BMap.Size(-80, -25) });
+            marker.setLabel(address); //添加地址标注
+            loacationInfo.address = rs.address;
+        });
+    }
+    map.addEventListener("click", showInfo);
+    $("#showMap").click(function () {
+        layer.open({
+            type: 1,
+            closebtn: false,
+            area: ['800px', '600px'],
+            content: $('.map'),
+            btn: ['保存'], //可以无限个按钮
+            yes: function (index, layero) {
+                $(".map").hide();
+                layer.close(index);
+                $("#location").val(loacationInfo.point.lat + "," + loacationInfo.point.lng);
+                $("#locationinfo").val(loacationInfo.address)
+
+            }
+        });
+        //添加地图类型控件
+
+    })
+
+</script>
 
 <script>
 
@@ -108,4 +200,100 @@
         });
         return info;
     }
+
+
+</script>
+
+<script>
+    var parent;
+    function UploadImg(e) {
+        parent = $(e).parent();
+        $("#filePicker").find("input").click();
+    }
+
+    var uploader = WebUploader.create({
+
+        // 选完文件后，是否自动上传。
+
+        auto: true,
+
+        // swf文件路径
+
+        swf: '/Scripts/webuploader/Uploader.swf',
+        // 文件接收服务端。
+        server: '/Common/Upload',
+
+        // 选择文件的按钮。可选。
+
+        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+        pick: '#filePicker',
+
+        // 只允许选择图片文件。
+        accept: {
+            title: 'Images',
+            extensions: 'gif,jpg,jpeg,bmp,png',
+            mimeTypes: 'image/*'
+        }
+    });
+    uploader.on('fileQueued', function (file) {
+        var $li = $(
+            '<div id="' + file.id + '" class="file-item thumbnail">' +
+            '<img>' +
+            '<div class="info">' + file.name + '</div>' +
+            '</div>'
+        ),
+            $img = $li.find('img');
+        // $list为容器jQuery实例
+
+        // 创建缩略图
+
+        // 如果为非图片文件，可以不用调用此方法。
+
+        // thumbnailWidth x thumbnailHeight 为 100 x 100
+
+        uploader.makeThumb(file, function (error, src) {
+            if (error) {
+                $img.replaceWith('<span>不能预览</span>');
+                return;
+            }
+            $img.attr('src', src);
+        }, 100, 100);
+    });
+    uploader.on('uploadProgress', function (file, percentage) {
+        var $li = $('#' + file.id),
+            $percent = $li.find('.progress span');
+        // 避免重复创建
+        if (!$percent.length) {
+            $percent = $('<p class="progress"><span></span></p>')
+                .appendTo($li)
+                .find('span');
+        }
+        $percent.css('width', percentage * 100 + '%');
+    });
+
+    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+    uploader.on('uploadSuccess', function (file, resporse) {
+
+        var html = '<li  class="addImg"><img src = "' + resporse.filePath + '" /></li >'
+        parent.append(html);
+
+
+    });
+    // 文件上传失败，显示上传出错。
+    uploader.on('uploadError', function (file) {
+        var $li = $('#' + file.id),
+            $error = $li.find('div.error');
+        // 避免重复创建
+        if (!$error.length) {
+            $error = $('<div class="error"></div>').appendTo($li);
+        }
+        $error.text('上传失败');
+    });
+
+    // 完成上传完了，成功或者失败，先删除进度条。
+
+    uploader.on('uploadComplete', function (file) {
+        $('#' + file.id).find('.progress').remove();
+    });
+
 </script>

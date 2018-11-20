@@ -206,6 +206,7 @@
     <Content Include="Content\images\gallery\thumb-4.jpg" />
     <Content Include="Content\images\gallery\thumb-5.jpg" />
     <Content Include="Content\images\gallery\thumb-6.jpg" />
+    <Content Include="Content\Img\addimg.jpg" />
     <Content Include="Content\js\ace-elements.min.js" />
     <Content Include="Content\js\ace-extra.min.js" />
     <Content Include="Content\js\ace.min.js" />
