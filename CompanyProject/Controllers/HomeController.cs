@@ -72,6 +72,12 @@ namespace CompanyProject.Controllers
 
         }
 
+
+
+        public ActionResult GetLocationTest()
+        {
+            return View();
+        }
         
     }
 }

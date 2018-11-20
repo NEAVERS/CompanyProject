@@ -449,6 +449,23 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Scripts\webuploader\Uploader.swf" />
+    <Content Include="Scripts\webuploader\webuploader.css" />
+    <Content Include="Scripts\webuploader\webuploader.custom.js" />
+    <Content Include="Scripts\webuploader\webuploader.custom.min.js" />
+    <Content Include="Scripts\webuploader\webuploader.fis.js" />
+    <Content Include="Scripts\webuploader\webuploader.flashonly.js" />
+    <Content Include="Scripts\webuploader\webuploader.flashonly.min.js" />
+    <Content Include="Scripts\webuploader\webuploader.html5only.js" />
+    <Content Include="Scripts\webuploader\webuploader.html5only.min.js" />
+    <Content Include="Scripts\webuploader\webuploader.js" />
+    <Content Include="Scripts\webuploader\webuploader.min.js" />
+    <Content Include="Scripts\webuploader\webuploader.noimage.js" />
+    <Content Include="Scripts\webuploader\webuploader.noimage.min.js" />
+    <Content Include="Scripts\webuploader\webuploader.nolog.js" />
+    <Content Include="Scripts\webuploader\webuploader.nolog.min.js" />
+    <Content Include="Scripts\webuploader\webuploader.withoutimage.js" />
+    <Content Include="Scripts\webuploader\webuploader.withoutimage.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -483,6 +500,8 @@
     <Content Include="Views\Check\EditCheckType.cshtml" />
     <Content Include="Views\Check\CheckInfoList.cshtml" />
     <Content Include="Views\Check\AddCheckInfo.cshtml" />
+    <Content Include="Views\Home\GetLocationTest.cshtml" />
+    <Content Include="Scripts\webuploader\README.md" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
