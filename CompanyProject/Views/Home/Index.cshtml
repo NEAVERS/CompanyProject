@@ -2,28 +2,100 @@
     ViewBag.Title = "Index";
     ViewBag.Menu = "HomeIndex";
 }
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- 时间选择器样式表 -->
+<link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=vmTunqr4NGOQqja4cCzyKP7ndM3PGBLK"></script>
-<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Content/js/date-time/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
 <link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
 <script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
 <style type="text/css">
     body, html, #allmap {
         width: 100%;
-        height: 800px;
+        height: 600px;
         overflow: hidden;
         margin: 0;
         font-family: "微软雅黑";
     }
 </style>
-
+<div class="row" style="height:40px">
+    <div class="col-xs-4" style="">
+        <label class="control-label col-md-4" for="Name" style="margin-top: 5px;">开始时间：</label>
+        <div class="col-md-8">
+            <input type="text" id="startTime" value="" class="form-control text-box single-line" />
+        </div>
+    </div>
+    <div class="col-xs-4" style="">
+        <label class="control-label col-md-4" for="Name" style="margin-top: 5px;">结束时间：</label>
+        <div class="col-md-8">
+            <input type="text" id="endTime" value="" class="form-control text-box single-line" />
+        </div>
+    </div>
+    <div class="col-xs-2" style="">
+        <input type="button" value="查询" id="add_btn" class="btn btn-default" style="margin-top: -2px;" />
+    </div>
+</div>
 
 <div id="allmap"></div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="table-responsive">
+            <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="center">
+                            <label>
+                                <input type="checkbox" class="ace" name="userId" />
+                                <span class="lbl"></span>
+                            </label>
+                        </th>
+                        <th>序号</th>
+                        <th>姓名</th>
+                        <th>设备编号</th>
+                        <th>状态</th>
+                        <th>区域</th>
+                        <th>定位方式</th>
+
+                        <th class="hidden-480">时间</th>
+                        <th class="hidden-480">通讯时间</th>
+                    </tr>
+                </thead>
+
+                <tbody id="hisData">
+                </tbody>
+            </table>
+        </div><!-- /.table-responsive -->
+    </div><!-- /span -->
+</div><!-- /row -->
+<!-- jquery -->
+<input type="hidden" id="id" value="@ViewBag.Id" />
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- bootstrap脚本 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- 时间选择器前置脚本 -->
+<script src="https://cdn.bootcss.com/moment.js/2.22.1/moment-with-locales.min.js"></script>
+
+<!-- 时间选择器核心脚本 -->
+<script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
 <script type="text/javascript">
+    
+    $('#startTime').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm',
+        locale: moment.locale('zh-CN')
+    });
+    $('#endTime').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm',
+        locale: moment.locale('zh-CN')
+    });
     // 百度地图API功能
     var map = new BMap.Map("allmap");    // 创建Map实例
-    map.centerAndZoom(new BMap.Point(120.7480900000, 27.9703830000), 13);  // 初始化地图,设置中心点坐标和地图级别
+    //map.centerAndZoom(new BMap.Point(120.7480900000, 27.9703830000), 20);  // 初始化地图,设置中心点坐标和地图级别
     //添加地图类型控件
     map.addControl(new BMap.MapTypeControl({
         mapTypes: [
@@ -36,7 +108,7 @@
         overlays.push(e.overlay);
         alert(overlays);
     };
-    map.setCurrentCity("重庆");          // 设置地图显示的城市 此项是必须设置的
+    map.setCurrentCity("温州");          // 设置地图显示的城市 此项是必须设置的
     map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
 
     var styleOptions = {
@@ -49,23 +121,23 @@
     }
 
     //实例化鼠标绘制工具
-    var drawingManager = new BMapLib.DrawingManager(map, {
-        isOpen: false, //是否开启绘制模式
-        enableDrawingTool: true, //是否显示工具栏
-        drawingToolOptions: {
-            anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
-            offset: new BMap.Size(5, 5), //偏离值
-        },
-        circleOptions: styleOptions, //圆的样式
-        polylineOptions: styleOptions, //线的样式
-        polygonOptions: styleOptions, //多边形的样式
-        rectangleOptions: styleOptions //矩形的样式
-    });
-    drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+    //var drawingManager = new BMapLib.DrawingManager(map, {
+    //    isOpen: false, //是否开启绘制模式
+    //    enableDrawingTool: true, //是否显示工具栏
+    //    drawingToolOptions: {
+    //        anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
+    //        offset: new BMap.Size(5, 5), //偏离值
+    //    },
+    //    circleOptions: styleOptions, //圆的样式
+    //    polylineOptions: styleOptions, //线的样式
+    //    polygonOptions: styleOptions, //多边形的样式
+    //    rectangleOptions: styleOptions //矩形的样式
+    //});
+    //drawingManager.addEventListener('overlaycomplete', overlaycomplete);
     var opts = {
         width: 250,     // 信息窗口宽度
-        height: 150,     // 信息窗口高度
-        title: "信息窗口", // 信息窗口标题
+        height: 50,     // 信息窗口高度
+        title: "", // 信息窗口标题
         enableMessage: true//设置允许信息窗发送短息
     };
 
@@ -73,33 +145,43 @@
     function showLine(id) {
         $.post("/Home/GetLocaHis", { itemId: id }, function (e) {
             var points = [];
+            map.clearOverlays();
             for (var i = 0; i < e.length; i++) {
                 var point = new BMap.Point(e[i].Lng, e[i].Lat);
+                if (i == 0) {
+                    map.centerAndZoom(point, 20);
+                }
                 points.push(point);
+                openPathInfo(e[i]);
             };
-            map.clearOverlays();
-            var polyline = new BMap.Polyline(points, { strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.5 });   //创建折线
+            $('#startTime').val(e[0].UploadTime)
+            $('#endTime').val(e[e.length-1].UploadTime)
+
+            loadTable(e);
+            var polyline = new BMap.Polyline(points, { strokeWeight: 2, strokeColor: "red", strokeOpacity: 0});   //创建折线
             map.addOverlay(polyline);   //增加折线
         }, "json")
-
-
-        //
-
-
+    }
+    function GetPosition() {
+        $.post("/Home/SetPosition", {}, function (e) {
+            var points = [];
+            for (var i = 0; i < e.length; i++) {
+                var marker = new BMap.Marker(new BMap.Point(e[i].Poin1.UpLng, e[i].Poin1.UpLat));  // 创建标注
+                map.addOverlay(marker);
+                var marker1 = new BMap.Marker(new BMap.Point(e[i].Poin1.DownLng, e[i].Poin1.DownLat));  // 创建标注
+                map.addOverlay(marker1);
+                var marker3 = new BMap.Marker(new BMap.Point(e[i].Poin2.UpLng, e[i].Poin2.UpLat));  // 创建标注
+                map.addOverlay(marker3);
+                var marker4 = new BMap.Marker(new BMap.Point(e[i].Poin2.DownLng, e[i].Poin2.DownLat));  // 创建标注
+                map.addOverlay(marker4);
+            }; //增加折线
+        }, "json")
     }
 
+
     $(function () {
-
-
-
-        $.post("/Home/GetLocations", {}, function (e) {
-            for (var i = 0; i < e.length; i++) {
-                var marker = new BMap.Marker(new BMap.Point(e[i].Lng, e[i].Lat));  // 创建标注
-                var content = e[i];
-                map.addOverlay(marker);               // 将标注添加到地图中
-                addClickHandler(content, marker);
-            };
-        }, "json")
+        var id = $("#id").val();
+        showLine(id);
     })
 
     function addClickHandler(content, marker) {
@@ -111,10 +193,70 @@
     function openInfo(content, e) {
         var p = e.target;
         var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
-        var info = "车牌:" + content.Code + "位置信息:" + content.LoacationInfo + ",状态:" + content.States
-
-        info += '<button onclick="showLine(\'' + content.Id + '\')">显示轨迹</button>';
+        var info = "上报时间:" + content.UploadTime  + "<br/>状态:在线";
         var infoWindow = new BMap.InfoWindow(info, opts);  // 创建信息窗口对象
         map.openInfoWindow(infoWindow, point); //开启信息窗口
     }
+
+    var plPoints = [{ weight: 4, color: "red", opacity: 0.6, points: ["120.7480900000|27.9733830000", "120.7481900000|27.9723930000", "120.7479900000|27.9713730000"] }
+    ];
+    //向地图中添加线函数
+    //function showLine(e) {
+    //    var len = map.getOverlays().length
+
+    //    for (var i = len; i > 0; i--) {
+
+    //        map.removeOverlay(map.getOverlays()[i]);
+
+    //    }
+
+    //    for (var i = 0; i < plPoints.length; i++) {
+    //        var json = plPoints[i];
+    //        var points = [];
+    //        for (var j = 0; j < json.points.length; j++) {
+    //            var p1 = json.points[j].split("|")[0];
+    //            var p2 = json.points[j].split("|")[1];
+    //            openPathInfo(p1, p2);
+    //            points.push(new BMap.Point(p1, p2));
+    //        }
+    //        var line = new BMap.Polyline(points, { strokeWeight: json.weight, strokeColor: json.color, strokeOpacity: json.opacity });
+    //        map.addOverlay(line);
+    //    }
+    //}
+    var myIcon = new BMap.Icon("/Content/Img/0203.png", new BMap.Size(22, 30));
+    function openPathInfo(e) {
+        //var marker = new BMap.Marker(new BMap.Point(e.Lng, e.Lng));  // 创建标注
+        
+        //map.addOverlay(marker);
+        var marker = new BMap.Marker(new BMap.Point(e.Lng, e.Lat), { icon: myIcon });  // 创建标注
+        addClickHandler(e, marker)
+        map.addOverlay(marker);
+    }
+    function loadTable(list) {
+        var html = "";
+        for (var i = 0; i < list.length; i++) {
+            html += "<tr><td class=\"center\"><label><input type=\"checkbox\" class=\"ace\" name=\"carId\" /><span class=\"lbl\"></span></label></td>";
+            html += "<td>" + (i + 1) + "</td >";
+            html += "<td>" + list[i].LoactionInfo + "</td >";
+            html += "<td>" + list[i].GPSItemId + "</td >";
+            html += "<td>在线</td >";
+            var area = "";
+            if (list[i].States == "0") {
+                area = "滨海大道项目";
+            }
+            if (list[i].States == "1") {
+                area = "龙瑶大道项目";
+            }
+            if (list[i].States == "2") {
+                area = "机场大道项目";
+            }
+
+            html += "<td>" + area +"</td >";
+            html += "<td>卫星定位</td >";
+            html += "<td>" + list[i].UploadTime+"</td>";
+            html += "<td>" + list[i].UploadTime + "</td>";
+        };
+        $("#hisData").html(html);
+    }
+
 </script>

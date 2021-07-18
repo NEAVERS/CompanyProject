@@ -23,11 +23,11 @@ namespace Dal.Mapping
             this.Property(t => t.Lat).HasColumnName("Lat");
             this.Property(t => t.Lng).HasColumnName("Lng");
 
-            this.Property(t => t.Status).HasColumnName("DealUserId");
-            this.Property(t => t.Lat).HasColumnName("DealUserName");
-            this.Property(t => t.Lng).HasColumnName("DealTime");
+            this.Property(t => t.DealUserId).HasColumnName("DealUserId");
+            this.Property(t => t.DealUserName).HasColumnName("DealUserName");
+            this.Property(t => t.DealTime).HasColumnName("DealTime");
 
-            this.Property(t => t.Lng).HasColumnName("DistributeTime");
+            this.Property(t => t.DistributeTime).HasColumnName("DistributeTime");
             this.Property(t => t.LocationInfo).HasColumnName("LocationInfo");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.Remark).HasColumnName("Remark");

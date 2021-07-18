@@ -1,6 +1,6 @@
 ﻿@using Model
 @{
-    ViewBag.Title = "车辆列表";
+    ViewBag.Title = "人员列表";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var list = (List<GPSItem>)ViewBag.List;
     ViewBag.Menu = "CarList";
@@ -8,11 +8,11 @@
 
 <div class="page-header">
     <h1>
-        车辆列表
+        人员列表
     </h1>
 </div><!-- /.page-header -->
 
-<button class="btn btn-link" onclick="location.href='/Home/AddCar'">添加车牌</button>
+<button class="btn btn-link" onclick="location.href='/Home/AddCar'">添加人员</button>
 
 <div class="row">
     <div class="col-xs-12">
@@ -30,7 +30,7 @@
                                         <span class="lbl"></span>
                                     </label>
                                 </th>
-                                <th>车牌</th>
+                                <th>姓名</th>
                                 <th>编号</th>
                                 <th class="hidden-480">最后更新时间</th>
 
@@ -43,7 +43,10 @@
                                     经纬度
                                 </th>
 
-                                <th>位置</th>
+                                <th>
+                                    项目
+                                </th>
+                                <th>操作</th>
                             </tr>
                         </thead>
 
@@ -57,38 +60,42 @@
                             {
                                 foreach (var item in list)
                                 {
-                                    <tr>
-                                        <td class="center">
-                                            <label>
-                                                <input type="checkbox" class="ace" name="carId" value="@item.Id" />
-                                                <span class="lbl"></span>
-                                            </label>
-                                        </td>
+                        <tr>
+                            <td class="center">
+                                <label>
+                                    <input type="checkbox" class="ace" name="carId" value="@item.Id" />
+                                    <span class="lbl"></span>
+                                </label>
+                            </td>
 
-                                        <td>
-                                            @item.CardNum
-                                        </td>
-                                        <td>
-                                            @item.Code
-                                        </td>
-                                        <td>
-                                            @item.LastUpdateTime
-                                        </td>
-                                        <td>
-                                            @item.Speed
-                                        </td>
-                                        <td>
-                                            @item.States
-                                        </td>
+                            <td>
+                                @item.CardNum
+                            </td>
+                            <td>
+                                @item.Code
+                            </td>
+                            <td>
+                                @item.LastUpdateTime
+                            </td>
+                            <td>
+                                @item.Speed
+                            </td>
+                            <td>
+                                @item.States
+                            </td>
 
-                                        <td>
-                                            ( @item.Lat , @item.Lng )
-                                        </td>
-                                        <td>
-                                            @item.LoacationInfo
-                                        </td>
+                            <td>
+                                ( @item.Lat , @item.Lng )
+                            </td>
 
-                                    </tr>
+                            <td>
+                                 @item.Oil
+                            </td>
+                            <td>
+                                <a href="/Home/Index?id=@item.Id" class="btn btn-default">查看轨迹</a>
+                            </td>
+
+                        </tr>
                                 }
                             }
                         </tbody>
@@ -96,7 +103,7 @@
                 </div><!-- /.table-responsive -->
             </div><!-- /span -->
         </div><!-- /row -->
-        <div class="row"><button class="btn btn-danger" id="deleteCar">删除车牌</button></div>
+        <div class="row"><button class="btn btn-danger" id="deleteCar">删除人员</button></div>
     </div><!-- /.col -->
 </div><!-- /.row -->
 <script src="~/Content/js/jquery-2.0.3.min.js"></script>
@@ -112,11 +119,11 @@
             }
         });
         if (id.length < 1) {
-            alert("请选择至少一个车牌！");
+            alert("请选择至少一个人员！");
             return;
         }
 
-        layer.confirm('请确认是否删除选中的车牌？', {
+        layer.confirm('请确认是否删除选中的人员？', {
             btn: ['确认', '取消'] //按钮
         }, function () {
             $.post("/Home/DeleteCarnum", { ids: id }, function (e) {

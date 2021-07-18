@@ -61,6 +61,22 @@ namespace Bll
         }
 
 
+        /// <summary>
+        /// 获取所有车辆的位置信息
+        /// </summary>
+        /// <returns></returns>
+        public List<GPSItem> GetGpsItems(string state)
+        {
+            var q = from c in _context.GPSItems
+                    where c.States == state
+                    select c;
+
+            var list = q.ToList();
+            return list;
+            //TODO UPdate数据并保存一条历史
+        }
+
+
         public bool UpdateGpsInfo()
         {
             var q = from c in _context.GPSItems
@@ -119,19 +135,52 @@ namespace Bll
             }
             return _response;
         }
+        public bool AddCar(string carNum,string location)
+        {
+            try
+            {
+                GPSItem item = new GPSItem();
+                item.Id = Guid.NewGuid();
+                item.CardNum = carNum;
+                item.Code = carNum;
+                item.Lat = 0;
+                item.Lng = 0;
+                item.LastUpdateTime = DateTime.Now;
+                item.Name = carNum;
+                item.LoacationInfo = location;
+                _context.GPSItems.Add(item);
+                return  _context.SaveChanges() > 0;
+            }
+            catch (Exception ex)
+            {
+                _response.Msg = ex.Message;
+            }
+            return false;
+        }
 
         //获取历史记录 
         public List<GPSHis> GetGPSHises(Guid itemId)
         {
-            DateTime start = DateTime.Now.AddDays(-1);
+            var item = _context.GPSHises.FirstOrDefault(x => x.GPSItemId == itemId);
+
+            DateTime dt = item.UploadTime.Date;
+
+            Random r = new Random();
+            dt = dt.AddHours(r.Next(5, 7));
+            dt = dt.AddMinutes(r.Next(25, 35));
+
 
             var q = from c in _context.GPSHises
-                    where c.UploadTime > start
-                    && c.GPSItemId == itemId
+                    where  c.GPSItemId == itemId 
+                    &&c.UploadTime > dt
                     select c;
             return q.ToList();
         }
-
+        public GPSItem GetGpsItem(Guid id)
+        {
+            return _context.GPSItems.FirstOrDefault(x => x.Id == id);
+            //TODO UPdate数据并保存一条历史
+        }
         /// <summary>
         /// 更新位置和并存一条历史记录信息
         /// </summary>
@@ -146,7 +195,7 @@ namespace Bll
                 his.GPSItemId = x.Id;
                 his.Lat = x.Lat;
                 his.Lng = x.Lng;
-                his.LoactionInfo = x.LoacationInfo;
+                his.LoactionInfo = x.Name;
                 his.States = x.States;
                 his.UploadTime = x.LastUpdateTime;
                 _context.GPSHises.Add(his);
