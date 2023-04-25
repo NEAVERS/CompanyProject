@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "登录";
+    Layout = null;
+}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- basic styles -->
+<link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-xs-12">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="row ">
+
+                <label class="control-label col-md-2" for="userName">用户名:</label>
+                <div class="col-md-5">
+                    <input class="form-control text-box single-line" id="userName" name="userName" type="text" value="">
+                </div>
+            </div>
+            <div class="row ">
+
+                <label class="control-label col-md-2" for="password">密  码:</label>
+                <div class="col-md-5">
+                    <input class="form-control text-box single-line" id="password" name="password" type="text" value="">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="登录" class="btn btn-default" />
+                </div>
+            </div>
+            <div class="row ">
+
+                <label class="control-label col-md-2 danger" for="password">@ViewBag.loginResult</label>
+
+            </div>
+            
+        </div>
+        }
+]
+    </div>
+</div>
+
+
+
+
+
+

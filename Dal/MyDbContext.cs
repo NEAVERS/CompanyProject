@@ -36,6 +36,12 @@ namespace Dal
         public DbSet<PicInfo> PicInfoes { get; set; }
 
 
+        public DbSet<PassRecord> PassRecords { get; set; }
+
+        public DbSet<UserInfo> UserInfoes { get; set; }
+
+        public DbSet<WeightRecord> WeightRecords { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new EmpleyeMap());
@@ -49,6 +55,11 @@ namespace Dal
             modelBuilder.Configurations.Add(new CheckInfoMap());
             modelBuilder.Configurations.Add(new CheckItemMap());
             modelBuilder.Configurations.Add(new PicInfoMap());
+            modelBuilder.Configurations.Add(new PassRecordMap());
+            modelBuilder.Configurations.Add(new UserInfoMap());
+
+
+            modelBuilder.Configurations.Add(new WeightRecordMap());
 
         }
 

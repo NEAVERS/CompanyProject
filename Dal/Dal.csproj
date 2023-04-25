@@ -53,9 +53,12 @@
     <Compile Include="Mapping\CheckTypeMap.cs" />
     <Compile Include="Mapping\GPSHisMap.cs" />
     <Compile Include="Mapping\GPSItemMap.cs" />
+    <Compile Include="Mapping\PassRecordMap.cs" />
     <Compile Include="Mapping\PayHisMap.cs" />
     <Compile Include="Mapping\PayUserMap.cs" />
     <Compile Include="Mapping\PicInfoMap.cs" />
+    <Compile Include="Mapping\UserInfoMap.cs" />
+    <Compile Include="Mapping\WeightRecordMap.cs" />
     <Compile Include="MyDbContext.cs" />
     <Compile Include="Mapping\EmpleyeMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
