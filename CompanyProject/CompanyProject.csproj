@@ -148,6 +148,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="AutoTask\AutoTask.cs" />
     <Compile Include="AutoTask\Filters.cs" />
+    <Compile Include="Controllers\AuthAttribute.cs" />
     <Compile Include="Controllers\CheckController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -506,6 +507,7 @@
     <Content Include="Views\Home\GetLocationTest.cshtml" />
     <Content Include="Scripts\webuploader\README.md" />
     <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

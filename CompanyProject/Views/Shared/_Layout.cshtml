@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Common;
+@{
+    string permission = "";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -104,6 +106,7 @@
                         <span class="btn btn-danger"></span>
                     </div>
                 </div><!-- #sidebar-shortcuts -->
+                
 
                 <ul class="nav nav-list">
                     <li>
@@ -163,11 +166,12 @@
 
                     </li>
 
-
+                    @if (Utils.CheckPermissions(permission, PermissionList.CarShipManager))
+                    {
                     <li>
-                        <a href="#" class="dropdown-toggle">
+                        <a href="#" class="dropdown-toggle">    
                             <i class="icon-list"></i>
-                            <span class="menu-text"> 作业车辆 </span>
+                            <span class="menu-text"> 车船管理 </span>
 
                             <b class="arrow icon-angle-down"></b>
                         </a>
@@ -188,6 +192,7 @@
                             </li>
                         </ul>
                     </li>
+                    }
 
                     <li>
                         <a href="#" class="dropdown-toggle">

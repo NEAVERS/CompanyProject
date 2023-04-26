@@ -37,4 +37,13 @@ namespace Common
           违禁品
     }
 
+
+    public enum PermissionList
+    {
+        UserManager = 0,
+        CarShipManager = 1,
+        ProjectManager = 2,
+        GoodsManager=3,
+    }
+
 }

@@ -178,5 +178,13 @@ namespace Common
             return targetDt;
         }
 
+
+
+        public static bool CheckPermissions(string permission,PermissionList point)
+        {
+            if(permission.Length >= (int)point  && permission[(int)point] == '1')
+                return true;
+            return false;
+        }
     }
 }
