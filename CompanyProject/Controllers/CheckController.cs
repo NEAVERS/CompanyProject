@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace CompanyProject.Controllers
 {
+    [Auth]
     public class CheckController : Controller
     {
         CheckManager _checkManager = new CheckManager();

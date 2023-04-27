@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace CompanyProject.Controllers
 {
+    [Auth]
     public class HomeController : Controller
     {
         GPSManager _manager = new GPSManager();

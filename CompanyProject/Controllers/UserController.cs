@@ -1,5 +1,6 @@
 ﻿using Bll;
 using Common.Entities;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,12 @@ using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext
 
 namespace CompanyProject.Controllers
 {
+    [PermissionFilter]
     public class UserController : Controller
     {
 
-        //UserManager _userManager = new UserManager();
-        //ResponseModel _response = new ResponseModel();
+        UserManager _userManager = new UserManager();
+        ResponseModel _response = new ResponseModel();
         // GET: User
         [Auth]
         public ActionResult Index()
@@ -29,15 +31,44 @@ namespace CompanyProject.Controllers
             return View();
         }
 
+        
+        [Auth]
+        public ActionResult UserList(int index = 1, int size = 15, string key = "")
+        {
+            var result = _userManager.GetUserInfo(index, size, key);
+            ViewBag.List = result.Result == null ? new List<UserInfo>() : (List<UserInfo>)result.Result;
+            return View(ViewBag.List) ;
+        }
+
+        [Auth]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Auth]
+        public ActionResult Create(UserInfo userInfo)
+        {
+            userInfo.UserId = Guid.NewGuid();
+            userInfo.LastLoginTime = DateTime.Now;
+            userInfo.CreateTime = DateTime.Now;
+            if ( _userManager.AddUser(userInfo))
+            {
+                return Redirect("/User/UserList");
+            }
+            else 
+                return View();
+        }
 
         [HttpPost]
         public ActionResult Login(string userName,string password)
         {
             string loginResult = "登录失败!";
             Guid userid = Guid.Empty;
-            if (userName == "admin" && password == "123456")
-            //if ((userName == "admin" && password == "123456" )
-            //    || _userManager.Login(userName,password,ref userid))
+            string permissions = "";
+            //if (userName == "admin" && password == "123456")
+            if ( _userManager.Login(userName, password, ref userid,ref permissions))
             {
                 FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
                                     1,
@@ -45,7 +76,7 @@ namespace CompanyProject.Controllers
                                     DateTime.Now,
                                     DateTime.Now.Add(FormsAuthentication.Timeout),
                                     true,
-                                    "11111111111"
+                                    permissions
                                     );
                 HttpCookie cookie = new HttpCookie(
                 FormsAuthentication.FormsCookieName,

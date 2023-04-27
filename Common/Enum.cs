@@ -40,10 +40,10 @@ namespace Common
 
     public enum PermissionList
     {
-        UserManager = 0,
-        CarShipManager = 1,
-        ProjectManager = 2,
-        GoodsManager=3,
+        用户管理 = 0,
+        车船管理 = 1,
+        项目管理 = 2,
+        商品管理=3,
     }
 
 }

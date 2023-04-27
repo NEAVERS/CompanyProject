@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace CompanyProject.Controllers
 {
+    [Auth]
     public class CommonController : Controller
     {
         // GET: Common

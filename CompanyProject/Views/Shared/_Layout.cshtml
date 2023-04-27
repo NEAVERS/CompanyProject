@@ -1,6 +1,6 @@
 ﻿@using Common;
 @{
-    string permission = "";
+    string permission = ViewBag.Permission;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -52,7 +52,7 @@
                 <a href="#" class="navbar-brand">
                     <small>
                         <i class="icon-leaf"></i>
-                        智慧城管管理系统
+                        智慧城管管理系统 
                     </small>
                 </a><!-- /.brand -->
             </div><!-- /.navbar-header -->
@@ -166,7 +166,7 @@
 
                     </li>
 
-                    @if (Utils.CheckPermissions(permission, PermissionList.CarShipManager))
+                    @if (Utils.CheckPermissions(permission, PermissionList.车船管理))
                     {
                     <li>
                         <a href="#" class="dropdown-toggle">    

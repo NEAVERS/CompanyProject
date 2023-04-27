@@ -6,6 +6,8 @@ using System.Web.Mvc;
 
 namespace CompanyProject.Controllers
 {
+
+    [Auth]
     public class CarController : Controller
     {
         // GET: Car
