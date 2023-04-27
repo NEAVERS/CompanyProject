@@ -29,16 +29,25 @@ namespace CompanyProject.Controllers
         }
 
 
-        public string GetLocations()
+        public string GetLocations(string plate,DateTime stime,DateTime etime)
         {
-            var list = _manager.GetGpsItems();
-            Guid id = Guid.Parse("80dd122e-1418-4965-8f14-245005804d0a");
-            //SetPosition(id);
-            string url = "http://www.gps902.net/api/GetMonitor.aspx?ids=356803210132270,353507000002012,353507100003389&mapType=baidu&key=20161222HLXTJDMW730XY";
 
+            string url = "https://api.wuxiakj.com/External/GetGpsList?Cph={0}&STime={1}&ETime={2}&Ident={3}";
+            url = string.Format(url, plate,stime.ToString("yyyy-MM-dd HH:mm:ss"), etime.ToString("yyyy-MM-dd HH:mm:ss"),"");
             string json = Common.HttpHelper.Get(url);
-            return Common.Utils.SerializeObject(list);
+            return json;
         }
+
+        public string GetVedioUrl(string plate)
+        {
+            string url = "https://api.wuxiakj.com/External/GpsFlvUrl?Cph={0}&Channel={1}&Ident={2}";
+            url = string.Format(plate, plate, 1, "");
+            string json = Common.HttpHelper.Get(url);
+            return json;
+        }
+
+
+
 
         public string GetLocaHis(Guid itemId)
         {
