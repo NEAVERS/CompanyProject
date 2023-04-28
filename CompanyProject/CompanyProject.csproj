@@ -149,6 +149,7 @@
     <Compile Include="AutoTask\AutoTask.cs" />
     <Compile Include="AutoTask\Filters.cs" />
     <Compile Include="Controllers\AuthAttribute.cs" />
+    <Compile Include="Controllers\BuildingWasteController.cs" />
     <Compile Include="Controllers\CarController.cs" />
     <Compile Include="Controllers\CheckController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
@@ -518,6 +519,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\BuildingWaste\" />
     <Folder Include="Views\Common\" />
   </ItemGroup>
   <ItemGroup>
