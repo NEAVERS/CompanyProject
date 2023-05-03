@@ -515,11 +515,13 @@
     <Content Include="Views\Car\ShowLocations.cshtml" />
     <Content Include="Views\User\UserList.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
+    <Content Include="Views\BuildingWaste\Index.cshtml" />
+    <Content Include="Views\BuildingWaste\Create.cshtml" />
+    <Content Include="Views\BuildingWaste\CarInOut.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\BuildingWaste\" />
     <Folder Include="Views\Common\" />
   </ItemGroup>
   <ItemGroup>

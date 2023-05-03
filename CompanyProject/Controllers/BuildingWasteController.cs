@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Bll;
+using Common.Entities;
+using Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,12 +9,23 @@ using System.Web.Mvc;
 
 namespace CompanyProject.Controllers
 {
+    
+    [Auth]
+    [PermissionFilter]
     public class BuildingWasteController : Controller
     {
+
+
+        BuildingManager _buildingManager = new BuildingManager();
+        UserManager userManager = new UserManager();
+        ResponseModel _response = new ResponseModel();
+
         // GET: BuildingWaste
-        public ActionResult Index()
+        public ActionResult Index(int index = 1, int size = 15, string key = "")
         {
-            return View();
+            var result = _buildingManager.GetBuildingInfo(index, size, key);
+            ViewBag.List = result.Result == null ? new List<WeightRecord>() : (List<WeightRecord>)result.Result;
+            return View(ViewBag.List);
         }
 
         // GET: BuildingWaste/Details/5
@@ -28,29 +42,43 @@ namespace CompanyProject.Controllers
 
         // POST: BuildingWaste/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(WeightRecord record)
         {
             try
             {
-                // TODO: Add insert logic here
+                record.Id = Guid.NewGuid();
+                record.CarId= Guid.NewGuid();
+                record.InTime = DateTime.Now;
+                record.InUserId = Guid.Parse(User.Identity.Name);
+                UserInfo user = new UserInfo();
+                if (userManager.GetUserInfo(Guid.Parse(User.Identity.Name), ref user))
+                {
+                    record.InUserName = user.Name;
+                    if (_buildingManager.AddRecord(record))
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+                
+                return View();
 
-                return RedirectToAction("Index");
+                
             }
-            catch
+            catch(Exception ex)
             {
                 return View();
             }
         }
 
         // GET: BuildingWaste/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(Guid id)
         {
             return View();
         }
 
         // POST: BuildingWaste/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Guid id, FormCollection collection)
         {
             try
             {
@@ -65,14 +93,14 @@ namespace CompanyProject.Controllers
         }
 
         // GET: BuildingWaste/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(Guid id)
         {
             return View();
         }
 
         // POST: BuildingWaste/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(Guid id, FormCollection collection)
         {
             try
             {
@@ -84,6 +112,15 @@ namespace CompanyProject.Controllers
             {
                 return View();
             }
+        }
+
+
+
+        public ActionResult CarInOut(int index = 1, int size = 15, string key = "")
+        {
+            var result = _buildingManager.GetCarInInfo(index, size, key);
+            ViewBag.List = result.Result == null ? new List<PassRecord>() : (List<PassRecord>)result.Result;
+            return View(ViewBag.List);
         }
     }
 }

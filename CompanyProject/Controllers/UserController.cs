@@ -72,7 +72,7 @@ namespace CompanyProject.Controllers
             {
                 FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
                                     1,
-                                    userName,
+                                    userid.ToString(),
                                     DateTime.Now,
                                     DateTime.Now.Add(FormsAuthentication.Timeout),
                                     true,

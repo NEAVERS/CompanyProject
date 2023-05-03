@@ -11,8 +11,11 @@ namespace CompanyProject.Controllers
     {
         public override void OnResultExecuting(ResultExecutingContext filterContext)
         {
-            string userdate = ((FormsIdentity)(filterContext.HttpContext.User.Identity)).Ticket.UserData;
-            filterContext.Controller.ViewBag.Permission = userdate;
+            if (filterContext.HttpContext.User.Identity.IsAuthenticated)
+            {
+                string userdate = ((FormsIdentity)(filterContext.HttpContext.User.Identity)).Ticket.UserData;
+                filterContext.Controller.ViewBag.Permission = userdate;
+            }
         }
     }
 }

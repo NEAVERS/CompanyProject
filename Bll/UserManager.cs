@@ -55,5 +55,24 @@ namespace Bll
             return _response;
         }
 
+
+        public bool GetUserInfo(Guid userId, ref UserInfo user)
+        {
+            try
+            {
+                var q = _context.UserInfoes.FirstOrDefault(x => x.UserId == userId);
+                if(q!= null)
+                {
+                    user = q;
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                _response.Msg = ex.Message;
+            }
+            return false;
+        }
+
     }
 }

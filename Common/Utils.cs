@@ -185,7 +185,7 @@ namespace Common
 
         public static bool CheckPermissions(string permission,PermissionList point)
         {
-            if(permission.Length >= (int)point  && permission[(int)point] == '1')
+            if(permission.Length > (int)point  && permission[(int)point] == '1')
                 return true;
             return false;
         }
