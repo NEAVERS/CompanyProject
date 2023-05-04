@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,8 +14,14 @@ namespace CompanyProject.Controllers
         {
             if (filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
-                string userdate = ((FormsIdentity)(filterContext.HttpContext.User.Identity)).Ticket.UserData;
-                filterContext.Controller.ViewBag.Permission = userdate;
+                string userdata = ((FormsIdentity)(filterContext.HttpContext.User.Identity)).Ticket.UserData;
+                var data = userdata.Split('_');
+                filterContext.Controller.ViewBag.Permission = data[0];
+                if(data.Length > 1)
+                {
+                    filterContext.Controller.ViewBag.UserName = data[1];
+                }
+
             }
         }
     }

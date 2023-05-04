@@ -14,6 +14,11 @@ namespace Common.Entities
 
         public object Result { get; set; }
 
+        public int TotalPages { get; set; }
+
+
+        public int TotalCount { get; set; }
+
 
         public ResponseModel()
         {

@@ -189,5 +189,33 @@ namespace Common
                 return true;
             return false;
         }
+
+        public static string GetPager(string url,int totalPage,int currentPage)
+        {
+            StringBuilder html = new StringBuilder() ;
+            if (currentPage > 3)
+            {
+                html.Append("<li><a href=\"" + url.Replace("page",(currentPage-3).ToString()) + "\">&laquo;</a></li>");
+            }
+
+            for(int i= 1;i < 6; i ++)
+            {
+                int page = i;
+                if (currentPage > 2 && currentPage - 3 + i > 0)
+                    page = currentPage - 3 + i;
+                if (page > totalPage)
+                    break;
+                if(page == currentPage)
+                    html.Append("<li class=\"active\"><a   href=\"#\">" + page + "</a></li>");
+                else
+                    html.Append("<li><a href=\"" + url.Replace("page", page.ToString()) + "\" >" + page + "</a></li>");
+            }
+
+            if(totalPage - currentPage > 3)
+                html.Append("<li><a href=\"" + url.Replace("page", (currentPage + 3).ToString()) + "\">&raquo;</a></li>");
+
+
+            return html.ToString();
+        }
     }
 }

@@ -6,8 +6,8 @@ using System.Web.Mvc;
 
 namespace CompanyProject.Controllers
 {
-
     [Auth]
+    [PermissionFilter]
     public class CarController : Controller
     {
         // GET: Car

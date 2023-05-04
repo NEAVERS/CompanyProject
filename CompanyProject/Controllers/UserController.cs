@@ -65,18 +65,18 @@ namespace CompanyProject.Controllers
         public ActionResult Login(string userName,string password)
         {
             string loginResult = "登录失败!";
-            Guid userid = Guid.Empty;
-            string permissions = "";
+ 
             //if (userName == "admin" && password == "123456")
-            if ( _userManager.Login(userName, password, ref userid,ref permissions))
+            UserInfo user = new UserInfo();
+            if ( _userManager.Login(userName, password, ref user))
             {
                 FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
                                     1,
-                                    userid.ToString(),
+                                    user.UserId.ToString(),
                                     DateTime.Now,
                                     DateTime.Now.Add(FormsAuthentication.Timeout),
                                     true,
-                                    permissions
+                                    user.Permission+ "_"+ user.Name
                                     );
                 HttpCookie cookie = new HttpCookie(
                 FormsAuthentication.FormsCookieName,
@@ -87,6 +87,10 @@ namespace CompanyProject.Controllers
             ViewBag.loginResult = loginResult;
             return View();
         }
-
+        public ActionResult SignOut()
+        {
+            FormsAuthentication.SignOut();
+            return Redirect("Login");
+        }
     }
 }

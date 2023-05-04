@@ -1,0 +1,67 @@
+﻿@using Common;
+@model IEnumerable<Model.ProjectInfo>
+
+@{
+    ViewBag.Title = "Index";
+    ViewBag.Menu = "ProjectInfo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("新建项目", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            项目名称
+        </th>
+        <th>
+            中标公司
+        </th>
+        <th>
+            专家列表
+        </th>
+        <th>
+            发布时间
+        </th>
+        <th>
+            项目编号
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Company)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PersionList)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Time)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProNo)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            <a href="https://zfcg.czt.zj.gov.cn/innerUsed_noticeDetails/index.html?noticeId=@item.Id" target="_blank">详情</a>
+            
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+<div  style="">
+    <ul class="pager">
+        @MvcHtmlString.Create(Utils.GetPager("/ProjectInfo/Index?index=page", ViewBag.TotalPage, ViewBag.Index))
+
+    </ul>
+</div>

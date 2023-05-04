@@ -156,6 +156,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PayUserController.cs" />
     <Compile Include="Controllers\PermissionFilterAttribute.cs" />
+    <Compile Include="Controllers\ProjectInfoController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -518,6 +519,8 @@
     <Content Include="Views\BuildingWaste\Index.cshtml" />
     <Content Include="Views\BuildingWaste\Create.cshtml" />
     <Content Include="Views\BuildingWaste\CarInOut.cshtml" />
+    <Content Include="Views\BuildingWaste\CreateCarInOut.cshtml" />
+    <Content Include="Views\ProjectInfo\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

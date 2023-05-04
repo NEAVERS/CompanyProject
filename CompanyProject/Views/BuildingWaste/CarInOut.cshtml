@@ -9,28 +9,21 @@
 <h2>CarInOut</h2>
 
 <p>
-    @Html.ActionLink("录入一条记录", "Create")
+    @Html.ActionLink("录入一条记录", "CreateCarInOut")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Plate)
+            车牌
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PassTime)
+            时间
         </th>
+
         <th>
-            @Html.DisplayNameFor(model => model.WeightRecordId)
+            录入人
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.InUserId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.InUserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CardId)
-        </th>
+
         <th></th>
     </tr>
 
@@ -43,16 +36,7 @@
             @Html.DisplayFor(modelItem => item.PassTime)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.WeightRecordId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.InUserId)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.InUserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CardId)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

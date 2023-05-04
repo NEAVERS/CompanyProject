@@ -10,6 +10,7 @@ using System.Web.Mvc;
 namespace CompanyProject.Controllers
 {
     [Auth]
+    [PermissionFilter]
     public class HomeController : Controller
     {
         GPSManager _manager = new GPSManager();

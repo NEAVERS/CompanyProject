@@ -52,6 +52,7 @@
     <Compile Include="CheckManager.cs" />
     <Compile Include="GPSManager.cs" />
     <Compile Include="PayUserManager.cs" />
+    <Compile Include="ProjectInfoManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserManager.cs" />
   </ItemGroup>

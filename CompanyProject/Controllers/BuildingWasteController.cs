@@ -122,5 +122,42 @@ namespace CompanyProject.Controllers
             ViewBag.List = result.Result == null ? new List<PassRecord>() : (List<PassRecord>)result.Result;
             return View(ViewBag.List);
         }
+
+
+
+        // GET: BuildingWaste/Create
+        public ActionResult CreateCarInOut()
+        {
+            return View();
+        }
+
+        // POST: BuildingWaste/Create
+        [HttpPost]
+        public ActionResult CreateCarInOut(PassRecord record)
+        {
+            try
+            {
+                record.Id = Guid.NewGuid();
+                record.CardId = Guid.NewGuid();
+                record.PassTime = DateTime.Now;
+                record.InUserId = Guid.Parse(User.Identity.Name);
+                UserInfo user = new UserInfo();
+                if (userManager.GetUserInfo(Guid.Parse(User.Identity.Name), ref user))
+                {
+                    record.InUserName = user.Name;
+                    if (_buildingManager.AddRecord(record))
+                    {
+                        return RedirectToAction("CarInOut");
+                    }
+                }
+
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+        }
     }
 }

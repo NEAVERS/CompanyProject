@@ -10,6 +10,7 @@ using System.Web.Mvc;
 namespace CompanyProject.Controllers
 {
     [Auth]
+    [PermissionFilter]
     public class PayUserController : Controller
     {
         PayUserManager _manager = new PayUserManager();

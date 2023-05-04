@@ -45,12 +45,14 @@
     <Compile Include="CheckItem.cs" />
     <Compile Include="CheckType.cs" />
     <Compile Include="Empleye.cs" />
+    <Compile Include="Expertor.cs" />
     <Compile Include="GPSHis.cs" />
     <Compile Include="GPSItem.cs" />
     <Compile Include="PassRecord.cs" />
     <Compile Include="PayHis.cs" />
     <Compile Include="PayUser.cs" />
     <Compile Include="PicInfo.cs" />
+    <Compile Include="ProjectInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Street.cs" />
     <Compile Include="UserInfo.cs" />

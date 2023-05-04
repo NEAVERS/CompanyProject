@@ -39,7 +39,11 @@ namespace Bll
             return _context.SaveChanges() > 0;
         }
 
-
+        public bool AddRecord(PassRecord passRecord)
+        {
+            _context.PassRecords.Add(passRecord);
+            return _context.SaveChanges() > 0;
+        }
 
         public ResponseModel GetCarInInfo(int index, int size, string key = "")
         {
